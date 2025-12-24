@@ -1,0 +1,146 @@
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa";
+import moi from "../../assets/moi.jpg";
+
+const Navbar = () => {
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    setIsAuthenticated(token === "logged"); 
+  }, [location.pathname]);
+
+  const navigation = [
+    { name: "Accueil", path: "/" },
+    { name: "À propos", path: "/about" },
+    { name: "Expérience", path: "/experience" },
+    { name: "Contact", path: "/contact" },
+  ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login", { replace: true });
+  };
+
+  return (
+    <nav className="fixed w-full top-0 z-50">
+      <div className="bg-linear-to-r from-pink-500 to-purple-700 shadow-xl backdrop-blur-md rounded-b-2xl border-b border-pink-400/50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <Link
+            to="/"
+            onClick={() => setIsMobileOpen(false)}
+            className="flex items-center gap-3"
+          >
+            <img
+              src={moi}
+              alt="Yassmine Ketata"
+              className="w-12 h-12 rounded-full border-2 border-white shadow-lg transition-all duration-500 hover:scale-110"
+            />
+            <span className="hidden sm:inline text-white font-extrabold text-xl tracking-widest">
+              Yassmine Ketata
+            </span>
+          </Link>
+
+          {/* Desktop navigation */}
+          <div className="hidden md:flex items-center gap-6">
+            {navigation.map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`relative font-bold px-3 py-2 rounded-lg transition-all duration-300 ${
+                  location.pathname === item.path
+                    ? "bg-white text-pink-600"
+                    : "text-white hover:bg-white hover:text-pink-500"
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+
+            {!isAuthenticated ? (
+              <Link
+                to="/login"
+                className="ml-4 px-5 py-2 bg-pink-400 text-white font-bold rounded-full"
+              >
+                Se connecter
+              </Link>
+            ) : (
+              <div className="ml-4 flex gap-3">
+                <Link
+                  to="/admin"
+                  className="px-4 py-2 bg-white text-pink-600 font-bold rounded-full"
+                >
+                  Tableau de bord
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 bg-pink-500 text-white font-bold rounded-full"
+                >
+                  Se déconnecter
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              className="text-white p-2"
+            >
+              {isMobileOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      <div
+        className={`fixed top-0 left-0 w-64 h-full bg-pink-200/80 backdrop-blur-md shadow-2xl transform transition-transform duration-500 ${
+          isMobileOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="px-6 py-6 flex flex-col gap-4">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              onClick={() => setIsMobileOpen(false)}
+              className="text-pink-700 font-bold px-3 py-2 rounded-lg hover:bg-pink-300 hover:text-white"
+            >
+              {item.name}
+            </Link>
+          ))}
+
+          {!isAuthenticated ? (
+            <Link
+              to="/login"
+              onClick={() => setIsMobileOpen(false)}
+              className="px-4 py-2 bg-pink-400 text-white rounded-full text-center"
+            >
+              Se connecter
+            </Link>
+          ) : (
+            <button
+              onClick={() => {
+                handleLogout();
+                setIsMobileOpen(false);
+              }}
+              className="px-4 py-2 bg-pink-500 text-white rounded-full"
+            >
+              Se déconnecter
+            </button>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

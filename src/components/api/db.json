@@ -1,0 +1,32 @@
+{
+  "formSubmissions": [],
+  "users": [
+    {
+      "id": "1",
+      "email": "yessmine.keta.2003@gmail.com",
+      "name": "Admin",
+      "role": "admin"
+    }
+  ],
+  "projects": [
+    {
+      "id": "2",
+      "title": "Site Web Salle de Sport – IIT Sfax",
+      "description": "Développement d’un site web moderne pour présenter une salle de sport. Réalisé avec HTML et CSS en 2023.",
+      "tech": ["HTML", "CSS"]
+    },
+    {
+      "id": "3",
+      "title": "Jasmine Coffee – Site Web Coffee Shop",
+      "description": "Création d’un site web complet pour un coffee shop avec animations. Projet universitaire 2024.",
+      "tech": ["HTML", "CSS", "JavaScript"]
+    },
+
+    {
+      "id": "4",
+      "title": "BankApp – Application Bancaire",
+      "description": "Application permettant de visualiser les comptes bancaires de différentes banques. Développée avec PHP (CakePHP 4) et Flutter.",
+      "tech": ["PHP", "CakePHP4", "Flutter", "MySQL"]
+    }
+  ]
+}
