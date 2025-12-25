@@ -1,4 +1,5 @@
 import "./App.css";
+import AdminLayout from "./components/admin/AdminLayout.jsx";
 import Layout from "./Pages/Layout.jsx";
 import Hero from "./components/Accueil/Hero.jsx";
 import About from "./components/Accueil/About.jsx";
